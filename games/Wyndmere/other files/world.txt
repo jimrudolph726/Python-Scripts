@@ -1,0 +1,100 @@
+import Items, player, enemies
+
+enemy1=enemies.Spider
+userselect=''
+
+def attack():
+    player.hp=player.hp-enemy1.damage
+    enemy1.hp=enemy1.hp-player.damage
+    encounter()
+
+def magic():
+    player.hp=player.hp-enemy1.damage
+    enemy1.hp=enemy1.hp-player.magic
+    encounter()
+
+def inventory():
+    print('your inventory: ' + str(player.inventoryprint))
+    encounter()
+
+def encounter():
+    print('player hp: {}\nenemy hp: {}'.format(player.hp,enemy1.hp))
+    attack1=input('[a]ttack\n[m]agic\n[i]nventory ')
+    if attack1=='a':
+        attack()
+    if attack1=='m':
+        magic()
+    if attack1=='i':
+        inventory()
+
+print('')
+print("|  /|  / \ / |\  | |\   |\    /| |‾‾‾ |‾‾) |‾‾‾")
+print("| / | /   |  | \ | | \  | \  / | |‾‾‾ |_/  |‾‾‾")
+print("|/  |/    |  |  \| |__) |  \/  | |___ | \  |___")
+print('')
+chooseclass=input('Choose your class: (F) for Fighter, (M) for Mage: ')
+
+if chooseclass=='F':
+    player=player.Fighter()
+    charclass='Fighter'
+if chooseclass=='M':
+    player=player.Mage()
+    charclass='Mage'
+
+
+encounter()
+
+
+    
+
+
+import Items, player, enemies
+
+enemy1=enemies.Spider
+userselect=''
+
+def attack():
+    player.hp=player.hp-enemy1.damage
+    enemy1.hp=enemy1.hp-player.damage
+    encounter()
+
+def magic():
+    player.hp=player.hp-enemy1.damage
+    enemy1.hp=enemy1.hp-player.magic
+    encounter()
+
+def inventory():
+    print('your inventory: ' + str(player.inventoryprint))
+    encounter()
+
+def encounter():
+    print('player hp: {}\nenemy hp: {}'.format(player.hp,enemy1.hp))
+    attack1=input('[a]ttack\n[m]agic\n[i]nventory ')
+    if attack1=='a':
+        attack()
+    if attack1=='m':
+        magic()
+    if attack1=='i':
+        inventory()
+
+print('')
+print("|  /|  / \ / |\  | |\   |\    /| |‾‾‾ |‾‾) |‾‾‾")
+print("| / | /   |  | \ | | \  | \  / | |‾‾‾ |_/  |‾‾‾")
+print("|/  |/    |  |  \| |__) |  \/  | |___ | \  |___")
+print('')
+chooseclass=input('Choose your class: (F) for Fighter, (M) for Mage: ')
+
+if chooseclass=='F':
+    player=player.Fighter()
+    charclass='Fighter'
+if chooseclass=='M':
+    player=player.Mage()
+    charclass='Mage'
+
+
+encounter()
+
+
+    
+
+

@@ -1,0 +1,35 @@
+class Item:
+    def __init__(self, name, value, description):
+        self.name = name
+        self.value=value
+        self.description=description
+    def __str__(self):
+        return "{}\n=====\nValue: {}\n{}\n".format(self.name, self.value, self.description)
+
+class Weapon(Item):
+    def __init__(self, name, value, description, damage):
+        self.name = name
+        self.value=value
+        self.description=description
+        self.damage=damage
+    
+    def __str__(self):
+        return "{}\n=====\nValue: {}\n{}\ndamage: {}\n".format(self.name, self.value, self.description, self.damage)
+
+rusty_dagger=Weapon('rusty dagger', 5, 'a small dull dagger with a loose hilt',5)
+leafy_sprig=Weapon('leafy sprig', 5, 'a curly hard wooden stick with a slight glow',5)
+short_sword=Weapon('short sword', 7, 'a small sword with a worn inscription',6)
+small_axe=Weapon('small axe', 8, 'an old little axe worn at the hip',7)
+
+class Armor(Item):
+    def __init__(self, name, value, description, armor):
+        self.name = name
+        self.value=value
+        self.description=description
+        self.armor=armor
+    
+    def __str__(self):
+        return "{}\n=====\nValue: {}\n{}\narmor: {}\n".format(self.name, self.value, self.description, self.armor)
+
+cloak=Armor('cloak', 5, 'a weatherworn brown cloak',5)
+feather_cap=Armor('feather cap', 3, 'a thin leather cap with a feather',2)

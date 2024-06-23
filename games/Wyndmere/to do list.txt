@@ -1,0 +1,1 @@
+1. for all transactions use cleaner code with index that works for any item selected to buy or sell
