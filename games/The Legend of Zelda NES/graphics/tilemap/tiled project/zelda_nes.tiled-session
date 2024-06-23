@@ -1,0 +1,103 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "b.tsx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInDock": 1
+        },
+        "Hyrule.tsx": {
+            "scaleInDock": 0.33,
+            "scaleInEditor": 1
+        },
+        "b.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "b2.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "b3..tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "b3.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "boundary.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "details.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "entities.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "untitled.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 7609.333333333333,
+                "y": 5002.666666666666
+            }
+        },
+        "zelda_nes.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 8044,
+                "y": 4887.333333333333
+            }
+        },
+        "zelda_nes.tmx#boundary": {
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/jimru/Desktop/zelda_nes/graphics/tilemap",
+    "last.externalTilesetPath": "C:/Users/jimru/Desktop/zelda_nes/graphics/tilemap",
+    "last.imagePath": "C:/Users/jimru/Desktop/zelda_nes/graphics/tilemap",
+    "lastUsedTilesetExportFilter": "All Files (*)",
+    "map.height": 84,
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 64,
+    "map.tileWidth": 64,
+    "map.width": 256,
+    "openFiles": [
+        "Hyrule.tsx",
+        "zelda_nes.tmx",
+        "entities.tsx",
+        "b.tsx"
+    ],
+    "project": "zelda_nes.tiled-project",
+    "recentFiles": [
+        "Hyrule.tsx",
+        "zelda_nes.tmx",
+        "entities.tsx",
+        "b.tsx",
+        "boundary.tsx",
+        "b3..tsx",
+        "b3.tsx",
+        "b2.tsx",
+        "untitled.tmx",
+        "details.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 32,
+        "width": 64
+    }
+}
