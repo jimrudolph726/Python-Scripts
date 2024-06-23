@@ -9,10 +9,10 @@ class Player(Entity):
     def __init__(self,pos,groups,obstacle_sprites,create_weapon,destroy_weapon):
         super().__init__(groups)
         self.status = 'down_idle'
-        self.image = pygame.image.load(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\link\{self.status}\1.png').convert_alpha()
+        self.image = pygame.image.load(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\link\{self.status}\1.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0,-26)
-        self.sword_sound = pygame.mixer.Sound(fr'C:\Users\jimru\Desktop\zelda_nes\sound\sword.mp3')
+        self.sword_sound = pygame.mixer.Sound(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\sound\sword.mp3')
         self.vulnerable = True
         
 

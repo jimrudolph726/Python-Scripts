@@ -11,7 +11,7 @@ class Weapon(pygame.sprite.Sprite):
         self.player_attack_check = player_attack_check
         self.damage = weapon_data[player.weapon]['damage']
 
-        self.image = pygame.image.load(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\weapons\{player.weapon}\{direction}.png').convert_alpha()
+        self.image = pygame.image.load(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\weapons\{player.weapon}\{direction}.png').convert_alpha()
         if direction == 'up': 
             self.rect = self.image.get_rect(midbottom = player.rect.midtop + pygame.math.Vector2(-7,10))
         if direction == 'down': 

@@ -4,7 +4,7 @@ from support import import_graphics
 
 class ParticlesFrameStorage:
     def __init__(self):
-        self.frames = {'red_darknut': import_graphics(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\particles\red_darknut')}
+        self.frames = {'red_darknut': import_graphics(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\particles\red_darknut')}
 
     def death_particles(self,enemy_name,pos,groups):
         death_graphics = self.frames[enemy_name]

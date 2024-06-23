@@ -26,12 +26,12 @@ class Level:
         self.create_map()
 
     def create_map(self):
-        layouts = {'boundary': import_csv_layout(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\layers\boundaries.csv'),
-                   'grass': import_csv_layout(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\layers\grass.csv'),
-                   'objects': import_csv_layout(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\layers\objects.csv'),
-                   'entities': import_csv_layout(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\layers\entities.csv')}
-        graphics = {'grass': import_graphics(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\grass'),
-                   'objects': import_graphics(fr'C:\Users\jimru\Desktop\zelda_nes\graphics\objects')}
+        layouts = {'boundary': import_csv_layout(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\layers\boundaries.csv'),
+                   'grass': import_csv_layout(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\layers\grass.csv'),
+                   'objects': import_csv_layout(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\layers\objects.csv'),
+                   'entities': import_csv_layout(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\layers\entities.csv')}
+        graphics = {'grass': import_graphics(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\grass'),
+                   'objects': import_graphics(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\graphics\objects')}
         
         for style, layout in layouts.items():
             for row_index, row in enumerate(layout):

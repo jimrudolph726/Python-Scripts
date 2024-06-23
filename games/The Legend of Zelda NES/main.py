@@ -9,7 +9,7 @@ class Game:
         pygame.init()
 
         # Load the MP3 file for overworld music
-        pygame.mixer.music.load(fr'C:\Users\jimru\Desktop\zelda_nes\sound\overworld.mp3')
+        pygame.mixer.music.load(fr'C:\Users\jimru\Documents\GitHub\Python-Scripts\games\The Legend of Zelda NES\sound\overworld.mp3')
         # Play the MP3 file in an infinite loop
         pygame.mixer.music.play(-1)
   
