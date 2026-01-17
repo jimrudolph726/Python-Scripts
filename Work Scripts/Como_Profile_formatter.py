@@ -24,8 +24,8 @@ Outputs:
       (#REXCHANGEProfile headers).
 
 Assumptions:
-    - 'Date Time' format is either 'MM/DD/YYYY HH:MM' or 'YYYY-MM-DD HH:MM:SS'.
-    - Duplicate timestamps within the same minute are adjusted by +1 second
+    - Raw Vu Situ CSV 'Date Time' format is either 'MM/DD/YYYY HH:MM' or 'YYYY-MM-DD HH:MM:SS'.
+    - Duplicate timestamps within the same minute are adjusted by adding a second of time to the duplicate
       to avoid WISKI import collisions.
     - Device serial numbers are mapped to station IDs via the `mapping` dictionary.
 
@@ -38,10 +38,16 @@ Error handling:
 import os
 import pandas as pd
 
-# Global error counter and error log list
-global err_count
+# Define directories
+input_folder = 'input'
+# output_folder = 'C:/kisters/wiski/services/kiiosys/temp/import/ZRXPV2R2'
+output_folder = 'output'
+df_dict = {}
+
+# error counter and error log list
 err_count = 0
 error_files = []
+file_count = 0
 
 # Mapping dictionary for column renaming
 mapping = {
@@ -53,11 +59,26 @@ mapping = {
 }
 
 column_order = ['Date Time', 'Station', 'pH', 'Total Dissolved Solids', 'Temperature', 'Barometric Pressure',
-                  'Specific Conductivity', 'RDO Concentration', 'Actual Conductivity',
-                  'Salinity', 'RDO Saturation', 'Depth']
+                'Specific Conductivity', 'RDO Concentration', 'Actual Conductivity',
+                'Salinity', 'RDO Saturation', 'Depth']
 
-def format_csv_dataframe(df, filename="unknown"):
-    global err_count
+def import_csv_create_dataframe(input_folder: str,
+                                filename: str)-> pd.DataFrame:
+    
+    file_path = os.path.join(input_folder, filename)
+
+    try:
+        # create dataframe from CSV
+        df = pd.read_csv(file_path, skiprows=6)
+
+    except Exception as e:
+        print(f"[ERROR] Could not process file '{filename}': {e}")
+        err_count += 1
+        error_files.append(filename)
+    return df
+
+def format_dataframe(df: pd.DataFrame, 
+                         filename:str)-> pd.DataFrame:
     try:
         # drop empty rows, rename columns, apply serial number to station number mapping
         df = df.dropna(how='all')
@@ -76,19 +97,14 @@ def format_csv_dataframe(df, filename="unknown"):
         df = drop_second_matching_column(df, "Barometric")
         df = drop_second_matching_column(df, "Temperature")
 
-        # for all columns, delete characters after "("
+        # for all columns, delete characters after "(" and delete any spaces before or after column name
         df.columns = [col.split('(')[0].strip() for col in df.columns]
-
-        # sondes either have a "/" or "-" separating month, day, and year, determine and set correct format
-        if '/' in str(df['Date Time'].iloc[0]):
-            date_format = '%m/%d/%Y %H:%M'
-        else:
-            date_format = '%Y-%m-%d %H:%M:%S'
-
-        df['Date Time'] = pd.to_datetime(df['Date Time'], format=date_format, errors='coerce')
         df.columns = df.columns.str.strip()
 
-        # some sonde samples are taken within the same minute, add 1 second to duplicate date time so all data are imported into WISKI
+        # convert Date Time column to pandas datetime objects. Let pandas determine format, raise an error and stop script if format can't be determined
+        df['Date Time'] = pd.to_datetime(df["Date Time"], errors="raise")
+
+        # some sonde data are recorded within the same minute, add 1 second to duplicate date time so all data are imported into WISKI
         duplicates_mask = df.duplicated(subset=['Date Time'], keep=False)
         counter = 0
         for index, row in df[duplicates_mask].iterrows():
@@ -121,13 +137,14 @@ def format_csv_dataframe(df, filename="unknown"):
         return df
 
     except Exception as e:
-        print(f"[ERROR] occurred in format_csv_dataframe function, file '{filename}' -  failed: {e}")
+        print(f"[ERROR] occurred in format_dataframe function, file '{filename}' -  failed: {e}")
         err_count += 1
         error_files.append(filename)
         return pd.DataFrame()
-
-def create_station_parameter_dataframes(df_processed, df_dict, filename="unknown"):
-    global err_count
+    
+def populate_dataframe_dictionary(df_processed: pd.DataFrame, 
+                                  df_dict: dict, 
+                                  filename)-> dict: 
     try:
         # filter for each station
         for station in df_processed['Station'].unique():
@@ -143,18 +160,15 @@ def create_station_parameter_dataframes(df_processed, df_dict, filename="unknown
                 df_dict[key] = pd.concat([df_dict[key], station_df[[col]]], ignore_index=True)
         return df_dict
     except Exception as e:
-        print(f"[ERROR] File '{filename}' - create_station_parameter_dataframes failed: {e}")
+        print(f"[ERROR] occurred with file '{filename}' - couldn't create dataframe dictionary, check populate_dataframe_dictionary function: {e}")
         err_count += 1
-        error_files.append(filename)
-        return df_dict
 
-def save_zrxp_files(df_dict, output_dir):
-    global err_count
+def save_zrxp_files(df_dict: dict, output_folder: str):
     try:
         # iterate through dataframes in df_dict
         for key, dataframe in df_dict.items():
             dataframe = dataframe.dropna()
-            output_path = os.path.join(output_dir, f"{key}.zrxp")
+            output_path = os.path.join(output_folder, f"{key}.zrxp")
 
             # replace spaces in parameter with underscores
             parameter_name = key.split("_")[1].replace(' ', '_')
@@ -168,33 +182,21 @@ def save_zrxp_files(df_dict, output_dir):
             dataframe.to_csv(output_path, index=False)
             print(f"Saved {key} dataframe to {output_path}")
     except Exception as e:
-        print(f"[ERROR] Error saving ZRXP files for output_dir '{output_dir}': {e}")
+        print(f"[ERROR] Error saving ZRXP files to output directory: '{output_folder}': {e}")
         err_count += 1
         error_files.append("Saving ZRXP files")
 
-def start_script_create_csv_dataframes(input_dir, output_dir):
-    global err_count
-    file_count = 0
-    df_dict = {}
-
+if __name__ == "__main__":
     # iterate through input folder and process each raw sonde CSV. We usually only process and import one CSV at a time, 
     # but this script is written to allow for processing of as many CSVs as you'd like
-    for filename in os.listdir(input_dir):
+    for filename in os.listdir(input_folder):
         if filename.endswith(".csv"):
-            input_csv_path = os.path.join(input_dir, filename)
-            try:
-                # create
-                df = pd.read_csv(input_csv_path, skiprows=6)
-                df_processed = format_csv_dataframe(df, filename=filename)
-                if not df_processed.empty:
-                    df_dict = create_station_parameter_dataframes(df_processed, df_dict, filename=filename)
-                    file_count += 1
-            except Exception as e:
-                print(f"[ERROR] Could not process file '{filename}': {e}")
-                err_count += 1
-                error_files.append(filename)
-
-    save_zrxp_files(df_dict, output_dir)
+            df: pd.DataFrame = import_csv_create_dataframe(input_folder, filename)
+            df_processed: pd.DataFrame = format_dataframe(df, filename)
+            if not df_processed.empty:
+                df_dict: dict = populate_dataframe_dictionary(df_processed, df_dict, filename)
+                file_count += 1
+    save_zrxp_files(df_dict, output_folder)
 
     print(f"\nNumber of errors that occurred during processing: {err_count}")
     print(f"Successfully processed {file_count} file(s)")
@@ -203,12 +205,3 @@ def start_script_create_csv_dataframes(input_dir, output_dir):
         print("\nFiles with errors:")
         for f in error_files:
             print(f" - {f}")
-
-# Define directories
-input_directory = '0. to process'
-output_directory = 'C:/kisters/wiski/services/kiiosys/temp/import/ZRXPV2R2'
-
-if __name__ == "__main__":
-    start_script_create_csv_dataframes(input_directory, output_directory)
-Lake_Sondes_Prepro.txt
-Displaying Lake_Sondes_Prepro.txt.
