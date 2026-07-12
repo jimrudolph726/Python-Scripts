@@ -24,8 +24,6 @@ Outputs:
       Saved in the specified output folder.
     - Note: WISKI does not allow for the import of processed lake CSVs with sample numbers immediately, so 
       data with sample numbers removed have to be imported first, then the CSV with sample numbers can be imported.
-      See Python SOP spreadsheet for details here: 
-      W:\07 Programs\Monitoring & Data Acquisition\0 WISKI\Script and Process Development\Python Script and Environment Metadata.xlsx
 
 ERROR Handling:
     - Prints warnings for unexpected columns and exits if headers do not match.
